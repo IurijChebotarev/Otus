@@ -1,11 +1,11 @@
-import pages.MainPage;
 import annotations.Driver;
+import enums.PagesTitles;
 import extensions.UIExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import pages.MainPage;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @ExtendWith(UIExtension.class)
 public class Test {
@@ -26,23 +25,24 @@ public class Test {
   private By courseStartDate = By.xpath(".//div[contains(@class, 'lessons__new-item-start')]");
 
   @org.junit.jupiter.api.Test
-  void showCourseWithQA() {
+  public void showCourseWithQA() {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
     List<String> pupularCursesResult = mainPage.getPupularCursesList().stream()
-        .map(element -> element.findElement((By) mainPage.getCursesTitle()).getText())
+        .map(element -> element.findElement(courseTitle).getText())
         .filter(element -> element.contains("QA"))
         .collect(Collectors.toList());
     System.out.println("У нас есть такие курсы для QA :" + pupularCursesResult);
 
     List<String> specializationCursesResult = mainPage.getSpecializationCursesList().stream()
-        .map(element -> element.findElement((By) mainPage.getCursesTitle()).getText())
+        .map(element -> element.findElement(courseTitle).getText())
         .filter(element -> element.contains("QA"))
         .collect(Collectors.toList());
     System.out.println("У нас есть такие курсы для QA :" + specializationCursesResult);
   }
+
   @org.junit.jupiter.api.Test
-  void showCursesDates() {
+  public void showCursesDates() {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
     Date date = null;
@@ -51,7 +51,7 @@ public class Test {
     DateFormat formatter = new SimpleDateFormat("d MMMM");
 
     for (WebElement element : mainPage.getPupularCursesList()) {
-      dateString = element.findElement((By) mainPage.getCursesStartDate()).getText();
+      dateString = element.findElement(courseStartDate).getText();
       try {
         date = formatter.parse(dateString.substring(2));
       } catch (ParseException e) {
@@ -83,15 +83,11 @@ public class Test {
   }
 
   @org.junit.jupiter.api.Test
-  void moveAndClickWithActions() {
+  public void moveAndClickWithActions() {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
-    Actions actions = new Actions(driver);
-    actions
-        .moveToElement(mainPage.getJavaScriptQAEngineerCourse(), 10, 50)
-        .click()
-        .build().perform();
-
+    mainPage.openPage(mainPage.getJavaScriptQAEngineerCourse());
+    driver.getTitle().equals(PagesTitles.JavaScriptQAEngineer);
 
   }
 }

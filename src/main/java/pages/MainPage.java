@@ -1,7 +1,10 @@
 package pages;
 
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -10,7 +13,7 @@ import java.util.List;
 public class MainPage {
 
   private WebDriver driver;
-  private final String site = "https://otus.ru";
+  private final String site = StringUtils.stripEnd(System.getProperty("webdriver.base.url"), "/");
 
   @FindBy(xpath = "//*[contains(@class, 'container-lessons')]//*[contains(text(), 'Популярные курсы')]/following-sibling::div[@class='lessons'][1]/a")
   private List<WebElement> pupularCursesList;
@@ -18,20 +21,9 @@ public class MainPage {
   private List<WebElement> specializationCursesList;
   @FindBy(css = "img[alt='JavaScript QA Engineer foreground']")
   private WebElement javaScriptQAEngineerCourse;
-  @FindBy(xpath = ".//div[contains(@class, 'lessons__new-item-title')]")
-  private WebElement cursesTitle;
-  @FindBy(xpath = ".//div[contains(@class, 'lessons__new-item-start')]")
-  private WebElement cursesStartDate;
-
-  public WebElement getCursesTitle() {
-    return cursesTitle;
-  }
-
-  public WebElement getCursesStartDate() {
-    return cursesStartDate;
-  }
 
   public WebElement getJavaScriptQAEngineerCourse() {
+    javaScriptQAEngineerCourse.findElement(By.xpath(".//div[contains(@class, 'lessons__new-item-start')]"));
     return javaScriptQAEngineerCourse;
   }
 
@@ -52,4 +44,14 @@ public class MainPage {
     driver.get(site);
     driver.manage().window().maximize();
   }
+
+  public JavaScriptQAEngineerPage openPage(WebElement element) {
+    Actions actions = new Actions(driver);
+    actions
+        .moveToElement(element)
+        .click()
+        .build().perform();
+    return new JavaScriptQAEngineerPage(driver);
+  }
+
 }

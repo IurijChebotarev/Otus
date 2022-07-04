@@ -21,7 +21,7 @@
         <useUnlimitedThreads>true</useUnlimitedThreads>
         <thread.count>32</thread.count>
 
-        <browser>chrome</browser>
+        <browser.name>chrome</browser.name>
         <webdriver.base.url>https://otus.ru</webdriver.base.url>
         <test.project.language>RU</test.project.language>
 
@@ -119,7 +119,7 @@
                     <threadCountMethods>${thread.count}</threadCountMethods>
 
                     <systemPropertyVariables>
-                        <browser>${browser}</browser>
+                        <browser.name>${browser.name}</browser.name>
                         <webdriver.timeouts.implicitlywait>${webdriver.timeouts.implicitlywait}
                         </webdriver.timeouts.implicitlywait>
                         <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
@@ -133,8 +133,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>10</source>
-                    <target>10</target>
+                    <source>8</source>
+                    <target>8</target>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
