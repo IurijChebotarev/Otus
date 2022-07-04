@@ -5,10 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtils {
 
-  public static final DateTimeFormatter DD_MMM = DateTimeFormatter.ofPattern("DD MMM");
+  public static final DateTimeFormatter D_MMM = DateTimeFormatter.ofPattern("D MMMM");
 
-  public static LocalDateTime dateToFormat_DD_MMM(String dateTime) {
-    return stringToDateTime(dateTime, DD_MMM);
+  public static LocalDateTime stringToFormat_D_MMM(String dateTime) {
+    return stringToDateTime(dateTime, D_MMM);
   }
 
   private static LocalDateTime stringToDateTime(String text, DateTimeFormatter formatter) {
