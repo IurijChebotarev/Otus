@@ -3,13 +3,14 @@ package enums;
 public enum PagesTitles {
   JavaScriptQAEngineer("Автоматизация тестирования на JavaScript. Курс по написанию автотестов на JS");
 
-  private String pagesTitles;
+  private String name;
 
-  public final String pagesTitles() {
-    return pagesTitles;
+  PagesTitles(String name) {
+    this.name = name;
+
   }
 
-  PagesTitles(String pagesTitles) {
-    this.pagesTitles = pagesTitles;
+  public String getName() {
+    return name;
   }
 }

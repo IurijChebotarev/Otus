@@ -7,37 +7,35 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainPage {
 
-  private WebDriver driver;
   private final String site = StringUtils.stripEnd(System.getProperty("webdriver.base.url"), "/");
-
-  @FindBy(xpath = "//*[contains(@class, 'container-lessons')]//*[contains(text(), 'Популярные курсы')]/following-sibling::div[@class='lessons'][1]/a")
-  private List<WebElement> pupularCursesList;
-  @FindBy(xpath = "//*[contains(@class, 'container-lessons')]//*[contains(text(), 'Специализации')]/following-sibling::div[@class='lessons']/a")
-  private List<WebElement> specializationCursesList;
-  @FindBy(css = "img[alt='JavaScript QA Engineer foreground']")
+  private WebDriver driver;
+  private String curses = "//*[contains(@class, 'container-lessons')]//*[contains(text(), '%s')]/following-sibling::div[@class='lessons']/a";
+  @FindBy(xpath = "//div[@class='lessons']/a[@href='/lessons/qajs/']")
   private WebElement javaScriptQAEngineerCourse;
-
-  public WebElement getJavaScriptQAEngineerCourse() {
-    javaScriptQAEngineerCourse.findElement(By.xpath(".//div[contains(@class, 'lessons__new-item-start')]"));
-    return javaScriptQAEngineerCourse;
-  }
-
-  public List<WebElement> getPupularCursesList() {
-    return pupularCursesList;
-  }
-
-  public List<WebElement> getSpecializationCursesList() {
-    return specializationCursesList;
-  }
+  @FindBy(xpath = "//div[@class='header2__logo']")
+  private WebElement logo;
 
   public MainPage(WebDriver driver) {
     this.driver = driver;
     PageFactory.initElements(driver, this);
+  }
+
+  public WebElement getLogo() {
+    return logo;
+  }
+
+  public WebElement getJavaScriptQAEngineerCourse() {
+    return javaScriptQAEngineerCourse;
   }
 
   public void openSite() {
@@ -53,5 +51,51 @@ public class MainPage {
         .build().perform();
     return new JavaScriptQAEngineerPage(driver);
   }
+
+  public void showQACurses(String title) {
+    List<WebElement> cursesList = driver.findElements(By.xpath(String.format(curses, title)));
+    By courseTitle = By.xpath(".//div[contains(@class, 'lessons__new-item-title')]");
+    List<String> cursesResult = cursesList.stream()
+        .map(element -> element.findElement(courseTitle).getText())
+        .filter(element -> element.contains("QA"))
+        .collect(Collectors.toList());
+    System.out.println("У нас есть такие курсы для QA :" + cursesResult);
+  }
+
+  public void showDates(String title) {
+    List<WebElement> cursesList = driver.findElements(By.xpath(String.format(curses, title)));
+    By courseStartDate = By.xpath(".//div[contains(@class, 'lessons__new-item-start')]");
+    Date date = null;
+    String dateString;
+    List<Date> dates = new ArrayList<>();
+    DateFormat formatter = new SimpleDateFormat("d MMMM");
+
+    for (WebElement element : cursesList) {
+      dateString = element.findElement(courseStartDate).getText();
+      try {
+        date = formatter.parse(dateString.substring(2));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+      dates.add(date);
+    }
+    showFarestDate(dates, formatter);
+    showEarliestDate(dates, formatter);
+  }
+
+  void showFarestDate(List<Date> dates, DateFormat format) {
+    Date farestDate = dates.stream()
+        .reduce(dates.get(0), (a, b) -> a.getTime() > b.getTime() ? a : b);
+
+    System.out.println("Самый поздний курс будет: " + format.format(farestDate));
+  }
+
+  void showEarliestDate(List<Date> dates, DateFormat format) {
+    Date earliestDate = dates.stream()
+        .reduce(dates.get(0), (a, b) -> a.getTime() < b.getTime() ? a : b);
+
+    System.out.println("Самый ранний курс будет: " + format.format(earliestDate));
+  }
+
 
 }

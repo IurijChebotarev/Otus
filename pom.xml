@@ -25,6 +25,8 @@
         <webdriver.base.url>https://otus.ru</webdriver.base.url>
         <test.project.language>RU</test.project.language>
 
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <webdriver.timeouts.implicitlywait>5000</webdriver.timeouts.implicitlywait>
 
         <surefire.plugin.version>2.22.2</surefire.plugin.version>
@@ -88,21 +90,6 @@
             </properties>
         </profile>
     </profiles>
-
-    <!--    <profiles>-->
-    <!--        <profile>-->
-    <!--            <id>production</id>-->
-    <!--            <properties>-->
-    <!--                <webdriver.base.url>https://otus.ru</webdriver.base.url>-->
-    <!--            </properties>-->
-    <!--        </profile>-->
-    <!--        <profile>-->
-    <!--            <id>test</id>-->
-    <!--            <properties>-->
-    <!--                <webdriver.base.url>https://test.otus.ru</webdriver.base.url>-->
-    <!--            </properties>-->
-    <!--        </profile>-->
-    <!--    </profiles>-->
 
     <build>
         <plugins>
