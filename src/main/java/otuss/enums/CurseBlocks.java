@@ -1,12 +1,12 @@
 package otuss.enums;
 
-public enum CursesTitles {
+public enum CurseBlocks {
   PopularCurses("Популярные курсы"),
   SpecializationCurses("Специализации");
 
   private String name;
 
-  CursesTitles(String name) {
+  CurseBlocks(String name) {
     this.name = name;
 
   }

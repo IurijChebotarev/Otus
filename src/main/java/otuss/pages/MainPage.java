@@ -11,16 +11,13 @@ import otuss.support.GuiceScoped;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainPage extends AnyPageAbs<MainPage> {
 
   private final String site = StringUtils.stripEnd(System.getProperty("webdriver.base.url"), "/");
   private String curses = "//*[contains(@class, 'container-lessons')]//*[contains(text(), '%s')]/following-sibling::div[@class='lessons']/a";
-  private String curseTitle ="//div[contains(text(), '%s')]";
   @FindBy(xpath = "//div[@class='lessons']/a[@href='/lessons/qajs/']")
   private WebElement javaScriptQAEngineerCourse;
   @FindBy(xpath = "//div[@class='header2__logo']")
@@ -54,7 +51,6 @@ public class MainPage extends AnyPageAbs<MainPage> {
   }
 
 
-
   public void showQACurses(String title) {
     List<WebElement> cursesList = guiceScoped.driver.findElements(By.xpath(String.format(curses, title)));
     By courseTitle = By.xpath(".//div[contains(@class, 'lessons__new-item-title')]");
@@ -67,7 +63,7 @@ public class MainPage extends AnyPageAbs<MainPage> {
 
   public void selectCurse(String curseBlockTitle, String title) {
     WebElement cursesList = guiceScoped.driver.findElement(By.xpath(String.format(curses, curseBlockTitle)));
-    cursesList.findElement(By.xpath(String.format(curseTitle, title))).click();
+    cursesList.findElement(By.xpath(String.format("//div[contains(text(), '%s')]", title))).click();
   }
 
 
@@ -106,5 +102,34 @@ public class MainPage extends AnyPageAbs<MainPage> {
     System.out.println("Самый ранний курс будет: " + format.format(earliestDate));
   }
 
+  public void showDatesAndTitles(String title, Date myDate, DateFormat formatter) {
+    List<WebElement> cursesList = guiceScoped.driver.findElements(By.xpath(String.format(curses, title)));
+    By courseStartDate = By.xpath(".//div[contains(@class, 'lessons__new-item-start')]");
+    By courseTitle = By.xpath(".//div[contains(@class, 'lessons__new-item-title')]");
+    Date date = null;
+    String dateString;
+    String titleString;
+    Map<String, Date> titlesAndDates = new HashMap<>();
 
+    for (WebElement element : cursesList) {
+      dateString = element.findElement(courseStartDate).getText();
+      titleString = element.findElement(courseTitle).getText();
+      try {
+        date = formatter.parse(dateString.substring(2));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+      titlesAndDates.put(titleString, date);
+    }
+    showTitleAndDate(titlesAndDates, myDate, formatter);
+  }
+
+  void showTitleAndDate(Map<String, Date> titlesAndDates, Date myDate, DateFormat formatter) {
+    titlesAndDates.forEach((curseTitle, curseDate) -> {
+          if (curseDate.getTime() == myDate.getTime() || curseDate.getTime() > myDate.getTime()) {
+            System.out.println(curseTitle + " : " + formatter.format(curseDate));
+          }
+        }
+    );
+  }
 }
