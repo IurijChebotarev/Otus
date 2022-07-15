@@ -12,5 +12,6 @@ public class LessonPageSteps {
   @Тогда("Страница урока {string} открыта")
   public void lessonPageShouldBeOpened(String lessonName) {
     lessonPage.pageTitleShouldBeSameAs(lessonName);
+
   }
 }

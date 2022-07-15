@@ -36,5 +36,6 @@ public class MainPageSteps {
       e.printStackTrace();
     }
     mainPage.showDatesAndTitles(curseBlock, date, formatter);
+
   }
 }

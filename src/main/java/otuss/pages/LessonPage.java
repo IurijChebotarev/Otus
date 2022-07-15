@@ -19,7 +19,7 @@ public class LessonPage extends AnyPageAbs<LessonPage> {
 
   public LessonPage pageTitleShouldBeSameAs(String pageName) {
     Assertions.assertThat(guiceScoped.driver.getTitle())
-        .as("Page title should be {}", pageName)
+        .as("Page title should be:", pageName)
         .isEqualTo(pageName);
 
     return this;
