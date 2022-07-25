@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 public class OrderApi {
   public static final String BASE_URL = "https://petstore.swagger.io/v2";
   public static final String ORDER = "/store/order";
+
   private RequestSpecification rspec;
 
   public OrderApi() {
@@ -25,7 +26,26 @@ public class OrderApi {
         .when()
         .post()
         .then()
+        .statusCode(200)
         .log().all();
+  }
+
+  public ValidatableResponse getOrder(String order) {
+    return io.restassured.RestAssured.given(rspec)
+        .basePath(ORDER)
+        .get(order)
+        .then()
+        .statusCode(200);
+
+  }
+
+  public ValidatableResponse getOrderWithError(String order) {
+    return io.restassured.RestAssured.given(rspec)
+        .basePath(ORDER)
+        .get(order)
+        .then()
+        .statusCode(404);
+
   }
 }
 
