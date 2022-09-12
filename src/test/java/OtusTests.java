@@ -1,51 +1,79 @@
-import annotations.Driver;
-import enums.CursesTitles;
-import enums.PagesTitles;
-import extensions.UIExtension;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import pages.MainPage;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-@ExtendWith(UIExtension.class)
+import java.net.MalformedURLException;
+import java.net.URI;
+
 public class OtusTests {
 
-  @Driver
-  public WebDriver driver;
+  private WebDriver driver;
 
-  @Test
-  public void showCourseWithQATest() {
-    MainPage mainPage = new MainPage(driver);
-    mainPage.openSite();
-    mainPage.showQACurses(CursesTitles.PopularCurses.getName());
-    mainPage.showQACurses(CursesTitles.SpecializationCurses.getName());
+  @Before
+  public void init() throws MalformedURLException {
+
+
+    DesiredCapabilities capabilities = new DesiredCapabilities();
+    capabilities.setCapability(CapabilityType.BROWSER_NAME, "chrome");
+    capabilities.setCapability(CapabilityType.BROWSER_VERSION, "104.0");
+    capabilities.setCapability("enableVNC", true);
+    driver = new RemoteWebDriver(
+        URI.create("http://127.0.0.1/wd/hub").toURL(),
+        capabilities
+    );
+  }
+
+  @After
+  public void tearDown() {
+    if (driver != null) {
+      driver.close();
+      driver.quit();
+    }
   }
 
   @Test
-  public void showCursesDatesTest() {
-    MainPage mainPage = new MainPage(driver);
-    mainPage.openSite();
-    mainPage.showDates(CursesTitles.PopularCurses.getName());
+  public void test1() throws InterruptedException {
+    driver.get("https://otus.ru");
+
+    Thread.sleep(3000);
   }
 
   @Test
-  public void moveAndClickWithActionsTest() {
-    MainPage mainPage = new MainPage(driver);
-    mainPage.openSite();
-    mainPage.openPage(mainPage.getJavaScriptQAEngineerCourse());
-    Assertions.assertEquals(driver.getTitle(), PagesTitles.JavaScriptQAEngineer.getName());
+  public void test2() throws InterruptedException {
+    driver.get("https://otus.ru");
 
+    Thread.sleep(3000);
   }
 
   @Test
-  public void showHighlightingOnClickTest() {
-    MainPage mainPage = new MainPage(driver);
-    mainPage.openSite();
-    mainPage.getLogo().click();
+  public void test3() throws InterruptedException {
+    driver.get("https://otus.ru");
+
+    Thread.sleep(3000);
+  }
+
+  @Test
+  public void test4() throws InterruptedException {
+    driver.get("https://otus.ru");
+
+    Thread.sleep(3000);
+  }
+
+  @Test
+  public void test5() throws InterruptedException {
+    driver.get("https://otus.ru");
+
+    Thread.sleep(3000);
+  }
+
+  @Test
+  public void test6() throws InterruptedException {
+    driver.get("https://otus.ru");
+
+    Thread.sleep(3000);
   }
 }
-
-
-
-
