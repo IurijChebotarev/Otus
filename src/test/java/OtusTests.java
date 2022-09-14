@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import pages.MainPage;
 
+import java.text.ParseException;
+
 @ExtendWith(UIExtension.class)
 public class OtusTests {
 
@@ -18,12 +20,12 @@ public class OtusTests {
   public void showCourseWithQATest() {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
-    mainPage.showQACurses(CursesTitles.PopularCurses.getName());
-    mainPage.showQACurses(CursesTitles.SpecializationCurses.getName());
+    mainPage.showQACurses(CursesTitles.PopularCurses.getName(), "QA");
+    mainPage.showQACurses(CursesTitles.SpecializationCurses.getName(), "QA");
   }
 
   @Test
-  public void showCursesDatesTest() {
+  public void showCursesDatesTest() throws ParseException {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
     mainPage.showDates(CursesTitles.PopularCurses.getName());
@@ -33,8 +35,8 @@ public class OtusTests {
   public void moveAndClickWithActionsTest() {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
-    mainPage.openPage(mainPage.getJavaScriptQAEngineerCourse());
-    Assertions.assertEquals(driver.getTitle(), PagesTitles.JavaScriptQAEngineer.getName());
+    mainPage.openDSPage(PagesTitles.DS.getUrlSuffix());
+    Assertions.assertEquals(driver.getTitle(), PagesTitles.DS.getName());
 
   }
 
@@ -42,7 +44,7 @@ public class OtusTests {
   public void showHighlightingOnClickTest() {
     MainPage mainPage = new MainPage(driver);
     mainPage.openSite();
-    mainPage.getLogo().click();
+    mainPage.clickOnLogo();
   }
 }
 

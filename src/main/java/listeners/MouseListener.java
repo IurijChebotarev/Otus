@@ -5,6 +5,7 @@ import org.openqa.selenium.support.events.WebDriverEventListener;
 
 public class MouseListener implements WebDriverEventListener {
 
+
   @Override
   public void beforeAlertAccept(WebDriver driver) {
 
@@ -78,11 +79,11 @@ public class MouseListener implements WebDriverEventListener {
   @Override
   public void beforeClickOn(WebElement element, WebDriver driver) {
     ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', 'outline: 4px solid red;');", element);
+
   }
 
   @Override
   public void afterClickOn(WebElement element, WebDriver driver) {
-    ((JavascriptExecutor) driver).executeScript("arguments[0].removeAttribute('style', 'outline: 4px solid red;');", element);
 
   }
 

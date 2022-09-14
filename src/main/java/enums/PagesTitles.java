@@ -1,16 +1,21 @@
 package enums;
 
 public enum PagesTitles {
-  JavaScriptQAEngineer("Автоматизация тестирования на JavaScript. Курс по написанию автотестов на JS");
+  DS("Профессия DS", "prof-ds");
 
   private String name;
+  private String urlSuffix;
 
-  PagesTitles(String name) {
+  PagesTitles(String name, String urlSuffix) {
     this.name = name;
+    this.urlSuffix = urlSuffix;
 
   }
 
   public String getName() {
     return name;
+  }
+  public String getUrlSuffix() {
+    return urlSuffix;
   }
 }
