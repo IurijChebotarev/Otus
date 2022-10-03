@@ -1,0 +1,11 @@
+pages\BasePage.class
+pages\PostPage.class
+pages\UsersPage.class
+pages\UserPage.class
+providers\SelenideWebDriver.class
+pages\PostsPage.class
+pages\MainPage.class
+enums\Posts.class
+enums\Tabs.class
+extensions\AppiumExtension.class
+enums\Users.class
